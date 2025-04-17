@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "071e301a-ade0-4d4b-877a-cf3b5ace8fe0",
+		"name": "DietCraft APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36579613"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "userRegister",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"Gerges\",\r\n    \"email\" : \"Georgefarag@gmail.com\",\r\n    \"password\":\"Gerges@012\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/register",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "userLogin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\" : \"Georgefarag@gmail.com\",\r\n    \"password\":\"Gerges@012\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/login",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "userLogout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base}}/user/logout",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteUser",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmUyMjM1NTlhZjc4MWJiZmE3N2E0NSIsImlhdCI6MTc0MDUxNDM3NywiZXhwIjoxNzQwNTE0NDAyfQ.fSGq-RTCvOIeJ8e0pOfs5vBr_x4g0YZFiFJ0KvGxYis",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base}}/user/delete/67be223559af781bbfa77a45",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"delete",
+										"67be223559af781bbfa77a45"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "userRefresh",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base}}/user/refresh",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUsers",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "info",
+					"item": [
+						{
+							"name": "addUserInfo",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzU2MjM1YzI5MWY4NzVkN2QzMDhkOSIsImlhdCI6MTc0MDk5NDg1NSwiZXhwIjoxNzQwOTk2MzU1fQ.lfWsdKdPzTvDBsgUCQ2Sc8aaehH-JzQgw-N0hsMqvaE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"age\" : 22,\r\n    \"weight\" : 76,\r\n    \"height\" : 177,\r\n    \"gender\" : true,\r\n    \"activityLevel\" : \"medium\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/info",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateUseInfo",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzU2MjM1YzI5MWY4NzVkN2QzMDhkOSIsImlhdCI6MTc0MTIwNDg1MCwiZXhwIjoxNzQxMjA2MzUwfQ.gUQwMRXxJTtgZrxFz9SGBOqzHbiz-h8YO6-qbAxxsL8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"goal\" : 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/user/info",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"user",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "nutrients",
+					"item": [
+						{
+							"name": "Get_nut_inside_item",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDA1MTdmMTRhMTJhOGRlZDJjMTljYSIsImlhdCI6MTc0MTczMzc5MiwiZXhwIjoxNzQxNzM1MjkyfQ.4shLOjNxIt_lik_2eISF9eVGXuCQZ6alpjMicw_yBSk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base}}/nutrients?item=chicken",
+									"host": [
+										"{{base}}"
+									],
+									"path": [
+										"nutrients"
+									],
+									"query": [
+										{
+											"key": "item",
+											"value": "chicken"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base",
+			"value": "localhost:3000",
+			"type": "string"
+		}
+	]
+}
