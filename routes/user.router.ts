@@ -3,6 +3,8 @@ import { userController } from "../controllers/user.controller";
 import { updateAccessToken } from "../controllers/auth.controller";
 import { authMiddle } from "../middlewares/auth.middle";
 import { upload } from "../middlewares/multer.middle";
+import { model } from "mongoose";
+import { modelController } from "../controllers/model.controller";
 export const router = express.Router();
 router.route("/register").post(userController.register);
 router.route("/login").post(userController.login);

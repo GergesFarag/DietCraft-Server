@@ -10,6 +10,8 @@ import { router as userRouter } from "./routes/user.router";
 import {router as nutirentsRouter} from "./routes/nutients.router";
 import { router as chatbotRouter } from "./routes/chatbot.router";
 import ErrorsHandler  from "./utils/error.handler";
+import cloudinary from "./config/cloudinary.config";
+import axios from "axios";
 export const app = express();
 dotenv.config();
 app.use(express.json());

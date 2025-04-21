@@ -8,7 +8,7 @@ export const generateTokens = (data: any, isJWT: boolean) => {
     token = jwt.sign(
         { id: data.id, role: data.isAdmin },
         process.env.JWT_SECRET as string,
-        { expiresIn: "2h" }
+        { expiresIn: "1h" }
     );
 } else { 
     token = jwt.sign( 

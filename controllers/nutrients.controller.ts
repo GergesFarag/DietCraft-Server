@@ -20,17 +20,14 @@ const getNutrients = catchError(
       "X-Api-Key": process.env.API_KEY as string,
     }, "GET");
     if (data.items.length === 0) {
-      return next(
-        new CustomError(
-          "Invalid Data",
-          "Please provide a valid food item",
-          HttpStatus.BAD_REQUEST
-        )
-      );
+      res.status(200).json({
+        message: `${item} not found`,
+        data: null
+      })
     }
     res.status(200).json({
       message: `${item} nutrients got successfully `,
-      data: data.items,
+      data:{...data.items[0]},
     });
   }
 );

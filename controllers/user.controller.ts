@@ -12,7 +12,10 @@ import path from "path";
 import fs from "fs";
 import cloudinary from "../config/cloudinary.config";
 import dotenv from "dotenv";
+import { forwardToLocalApi } from "../utils/forwardFormData";
+import { modelController } from "./model.controller";
 dotenv.config();
+
 const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: (process.env.MODE as string) === "production",
@@ -23,7 +26,9 @@ const register = catchError(
     const { email, password } = req.body;
     const isExist = await User.findOne({ email });
     if (isExist && isExist.isActive) {
-      res.status(400).json({ message: "Cannot Use These Credentials" , data: null });
+      res
+        .status(400)
+        .json({ message: "Cannot Use These Credentials", data: null });
       return;
     }
     const newUser = new User({ ...req.body });
@@ -112,7 +117,15 @@ const getAllUsers = catchError(
 );
 const addUserInfo = catchError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { age, weight, height, gender, activityLevel, goal = 1 , targetWeight } = req.body;
+    const {
+      age,
+      weight,
+      height,
+      gender,
+      activityLevel,
+      goal = 1,
+      targetWeight,
+    } = req.body;
     if (!age || !weight || !height || !gender || !activityLevel) {
       return next(new Error("Invalid Data Provided"));
     }
@@ -152,14 +165,16 @@ const getUserInfo = catchError(
     //@ts-ignore
     const user = await User.findById(req.data.id).select("userData");
     if (!user) {
-      return next(new CustomError("Invalid User" , "User Not Found", HttpStatus.NOT_FOUND));
+      return next(
+        new CustomError("Invalid User", "User Not Found", HttpStatus.NOT_FOUND)
+      );
     }
     res.status(200).json({
       message: "User Info Got Successfully",
       data: user.userData,
     });
   }
-)
+);
 const updateUserInfo = catchError(
   async (req: Request, res: Response, next: NextFunction) => {
     if (Object.keys(req.body).length === 0)
@@ -231,23 +246,35 @@ const uploadImage = catchError(
     user.userImages?.push(imageDoc._id.toString());
     await user.save();
 
-    //Simulation For Image Processing
-    const processedIamgeiDir = path.join(__dirname, "../public/uploads/processed/");
-    const processedImagePath = path.join(
-      processedIamgeiDir,
-      `${req.file.filename}`
-    );
-    await sharp(req.file.path).greyscale().toFile(processedImagePath);
-
+    // Simulation For Image Processing
+    const rawImageDir = path.join(__dirname, "../public/uploads/raw/");
+    const RawImagePath = path.join(rawImageDir, `${req.file.filename}`);
     try {
-      const result = await cloudinary.uploader.upload(processedImagePath); //Procesed Image File
+      const result = await cloudinary.uploader.upload(RawImagePath);
       imageDoc.cloudURL = result.secure_url;
       await imageDoc.save();
-      res.status(200).json({
-        message: "File Uploaded Successfully",
-        data: imageDoc,
-        imageURL: result.secure_url,
-      });
+      const responseFromCloud = await modelController.getImageFromCloud(
+        result.public_id
+      );
+      const response = await forwardToLocalApi(responseFromCloud);
+      console.log("Response From Local API:", response);
+      if (response.predictions.length > 0) {
+        res.status(200).json({
+          message: "File Uploaded Successfully",
+          data: imageDoc,
+          cloudURL: result.secure_url,
+          imageURL: response.image_url,
+          itemPrediction: response.predictions[0].name,
+        });
+      }else{
+        res.status(200).json({
+          message: "File Uploaded Successfully",
+          data: imageDoc,
+          cloudURL: result.secure_url,
+          itemPrediction: '',
+          imageURL: response.image_url,
+        });
+      }
     } catch (error) {
       console.error("Cloudinary Upload Error:", error);
       return next(
@@ -269,5 +296,5 @@ export const userController = {
   addUserInfo,
   updateUserInfo,
   uploadImage,
-  getUserInfo
+  getUserInfo,
 };
